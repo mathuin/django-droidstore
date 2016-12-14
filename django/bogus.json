@@ -1,0 +1,16 @@
+[
+    {
+        "pk": 1,
+        "model": "store.product",
+        "fields": {
+            "description": "HFBeacon is a simple application which informs the user which HF propagation beacon is transmitting at the present time.\r\n\r\nThis app is for ham radio operators, shortwave listeners, and others who need to know the propagation conditions across the HF bands.  Please send comments and suggestions to mathuin@gmail.com -- thanks!",
+            "package": "org.twilley.android.hfbeacon",
+            "title": "HFBeacon",
+            "version": "2.0",
+            "iconfile": "HFBeacon-icon.png",
+            "apkfile": "HFBeacon.apk",
+            "qrcodefile": "HFBeacon-qrcode-save.png",
+            "recent": "New features in 2.0 include local offset and position formatting preferences.\r\nThere is now a Facebook page for HFBeacon so please visit the page and leave feedback on how you use HFBeacon!\r\nNext on the feature list is localization: volunteers are needed for all languages especially Spanish, French and German.  Thanks again!"
+        }
+    }
+]

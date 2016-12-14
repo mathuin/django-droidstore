@@ -1,0 +1,12 @@
+version: '2'
+services:
+    db:
+        environment:
+            - POSTGRES_USER=droidstore
+            - POSTGRES_PASSWORD=droidstore_password
+            - POSTGRES_DATABASE=droidstore
+    web:
+        command: gunicorn --access-logfile "-" -b ":8000" droidstore.wsgi
+        environment:
+            - DATABASE_URL=postgres://droidstore:droidstore_password@db:5432/droidstore
+            - SECRET_KEY='qkmm6qcxz9npoCxtt8ofRu5vVFeTEfbDIJdmIKiEBIiVCi2ef9'

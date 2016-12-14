@@ -1,0 +1,92 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+{% load staticfiles %}
+{% load encode_mailto %}
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Android™ applications by Jack Twilley</title>
+		<link rel="stylesheet" href="{% static "stylesheets/androidapps.css" %}" type="text/css" media="all" />
+		<!-- <%= javascript_include_tag :defaults %> -->
+	</head>
+	<body id="store">
+		<div id="banner">
+			<h1>Android™ applications by Jack Twilley</h1>
+		</div>
+		<div id="columns">
+			<div id="side">
+				<img src="{% static "images/Android.gif" %}"/>
+				<br />
+				<a href="/">Home</a>
+				<br />
+				{{ "mathuin@gmail.com"|encode_mailto:"Contact" }}
+				<br />
+			</div>
+			<div id="main">
+				{% if products %}
+				{% for product in products %}
+				<div class="newentry">
+					<div class="left">
+						{% if product.iconfile %}
+						<div>
+							<img src="{{ product.iconfile.url }}" class="icon">
+						</div>
+						{% endif %}
+						{% if product.apkfile %}
+						<div class="button">
+							<a href="{{ product.apkfile.url }}" class="apk">Download</a>
+						</div>
+						{% endif %}
+						{% if product.qrcodefile %}
+						<div>
+							<img src="{{ product.qrcodefile.url }}" class="qrcode">
+						</div>
+						{% endif %}
+					</div>
+					<div class="right">
+						<div class="title">
+							<b>{{ product.title }}</b> version {{ product.version }}
+						</div>
+						<div class="desc">
+							<dl>
+								<dt>
+									<h3>Description:</h3>
+								</dt>
+								<dd>
+									{{ product.description }}
+								</dd>
+							</dl>
+						</div>
+						{% if product.recent %}
+						<div class="recent">
+							<dl>
+								<dt>
+									<h3>Recent Changes:</h3>
+								</dt>
+								<dd>
+									{{ product.recent }}
+								</dd>
+							</dl>
+						</div>
+						{% endif %}
+					</div>
+				</div>
+				{% endfor %}
+				{% else %}
+				<div class="newentry">
+					<div class="right">
+						<p>There are no products currently available.</p>			
+					</div>
+				</div>
+				{% endif %}
+			</div>
+		</div>
+		<div id="footer">
+			<p>
+				Portions of this page are reproduced from work created and <a href="http://code.google.com/policies.html">shared by Google</a> and used according to terms described in the <a href="http://creativecommons.org/licenses/by/3.0/">Creative Commons 3.0 Attribution License</a>.
+			</p>
+			<p>
+				Android is a trademark of Google Inc. Use of this trademark is subject to <a href="http://www.google.com/permissions/index.html">Google Permissions</a>.
+			</p>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,23 @@
+sudo: required
+language: python
+python:
+    - "3.5"
+branches:
+    only:
+        - master
+services:
+    - docker
+env:
+    global:
+        - DOCKER_COMPOSE_VERSION=1.8.0
+before_install:
+    - pip install --upgrade docker-compose==${DOCKER_COMPOSE_VERSION}
+install:
+    - ./dev-setup.sh
+script:
+    - docker-compose run --rm web python manage.py test
+deploy:
+    provider: script
+    script: scripts/deploy.sh
+    on:
+        branch: master

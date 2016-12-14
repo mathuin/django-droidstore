@@ -1,0 +1,11 @@
+Django==1.10.4
+gunicorn==19.6.0
+python-decouple==3.0
+dj-database-url==0.4.1
+dj-email-url==0.0.10
+Pillow==3.4.2
+psycopg2==2.6.2
+qrcode==5.3
+Sphinx==1.5
+hieroglyph==0.7.1
+unipath==1.1
