@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # clean up current situation
 docker-compose down -v
@@ -7,8 +7,8 @@ docker-compose down -v
 docker-compose build
 
 # populate public directory and nginx directory
-docker run --rm -it -v droidstorepublic:/public -v $(pwd):/backup busybox tar -C /public -xf /backup/public.tar
-docker run --rm -it -v droidstorenginx:/nginx -v $(pwd):/backup busybox cp /backup/nginx/droidstore.conf /nginx
+docker run --rm -it -v djangodroidstore_public:/public -v $(pwd):/backup busybox tar -C /public -xf /backup/public.tar
+docker run --rm -it -v djangodroidstore_nginx:/nginx -v $(pwd):/backup busybox cp /backup/nginx/droidstore.conf /nginx
 
 # collectstatic
 docker-compose run --rm web python manage.py collectstatic --noinput
