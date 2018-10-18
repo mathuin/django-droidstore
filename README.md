@@ -1,4 +1,33 @@
 [![Build Status](https://travis-ci.org/mathuin/django-droidstore.svg?branch=master)](https://travis-ci.org/mathuin/django-droidstore)
+
 # django-droidstore
 
 This is an Android app store written in Django.  No frills. :-)
+
+# Requirements
+
+Pyment requires Docker Engine 1.10.0+ and Docker Compose 1.6.0+.
+
+# Standard workflow
+
+This needs to be written!
+
+# Development tips
+
+## Building the software
+
+There's a `./dev-setup.sh` script which should do the right thing.
+
+## Testing the software
+
+After running the aforementioned script, try this: `docker-compose run --rm web python manage.py test`.
+
+## Running a local instance for testing purposes
+
+Copy the example env file mentioned above to the target location, re-run the script mentioned above, and try this:  `docker-compose up`.
+
+The example env file includes a reference to `localhost` in `ALLOWED_HOSTS` which makes the website work when visited at `http://localhost:8000` for testing.
+
+# License
+
+This software is released under the [MIT license](http://opensource.org/licenses/mit-license.php).
