@@ -8,8 +8,9 @@ services:
             - POSTGRES_HOTS_AUTH_METHOD=trust
         volumes:
             - devssl:/devssl
-        command: -c ssl=on ssl_cert_file=/devssl/server.crt -c ssl_key_file=/devssl/server.key
+        command: -c ssl=on -c ssl_cert_file=/devssl/server.crt -c ssl_key_file=/devssl/server.key
     web:
+        build: ./django
         command: gunicorn --access-logfile "-" -b ":8000" droidstore.wsgi
         environment:
             - DATABASE_URL=postgres://droidstore:droidstore_password@db:5432/droidstore
