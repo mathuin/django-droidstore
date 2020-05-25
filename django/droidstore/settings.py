@@ -68,7 +68,7 @@ AWS_S3_ENDPOINT_URL = config('AWS_S3_ENDPOINT_URL', default='')
 # If we have an S3 endpoint URL use it instead of standard root settings
 if AWS_S3_ENDPOINT_URL:
     STATICFILES_STORAGE = 'droidstore.storage_backends.StaticStorage'
-    DEFAULT_FILE_STORAGE = 'droidstore.storage_backends.StaticStorage'
+    DEFAULT_FILE_STORAGE = 'droidstore.storage_backends.PublicMediaStorage'
 else:
     STATIC_ROOT = PUBLIC_ROOT.child('static')
     MEDIA_ROOT = PUBLIC_ROOT.child('media')
