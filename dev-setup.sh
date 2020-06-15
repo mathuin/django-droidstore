@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -ex
 
 # clean up current situation
 docker-compose down -v

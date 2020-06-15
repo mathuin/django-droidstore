@@ -146,8 +146,8 @@ h1 {
 }
 
 #store .newentry p {
- margin-top: 0.5em; 
- margin-bottom: 0.8em; 
+ margin-top: 0.5em;
+ margin-bottom: 0.8em;
 }
 
 #store .newentry .button {
@@ -160,7 +160,7 @@ h1 {
 }
 
 #store .oldentry img {
-  width: 75px; 
+  width: 75px;
   float: left;
 }
 
@@ -171,8 +171,8 @@ h1 {
 }
 
 #store .oldentry p {
- margin-top: 0.5em; 
- margin-bottom: 0.8em; 
+ margin-top: 0.5em;
+ margin-bottom: 0.8em;
 }
 
 #store .oldentry .price-line {

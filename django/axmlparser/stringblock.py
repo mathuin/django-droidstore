@@ -16,31 +16,27 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with Androguard.  If not, see <http://www.gnu.org/licenses/>.
 
-from . import bytecode
-
 from .bytecode import SV
 
-import io
-from struct import pack, unpack
-from xml.dom import minidom
 
 class StringBlock:
     """
     axml format translated from:
     http://code.google.com/p/android4me/source/browse/src/android/content/res/AXmlResourceParser.java
     """
+
     def __init__(self, buff):
         buff.read(4)
 
-        self.chunkSize = SV('<L', buff.read(4))
-        self.stringCount = SV('<L', buff.read(4))
-        self.styleOffsetCount = SV('<L', buff.read(4))
+        self.chunkSize = SV("<L", buff.read(4))
+        self.stringCount = SV("<L", buff.read(4))
+        self.styleOffsetCount = SV("<L", buff.read(4))
 
         # unused value ?
-        buff.read(4) # ?
+        buff.read(4)  # ?
 
-        self.stringsOffset = SV('<L', buff.read(4))
-        self.stylesOffset = SV('<L', buff.read(4))
+        self.stringsOffset = SV("<L", buff.read(4))
+        self.stylesOffset = SV("<L", buff.read(4))
 
         self.m_stringOffsets = []
         self.m_styleOffsets = []
@@ -48,10 +44,10 @@ class StringBlock:
         self.m_styles = []
 
         for i in range(0, self.stringCount.get_value()):
-            self.m_stringOffsets.append(SV('<L', buff.read(4)))
+            self.m_stringOffsets.append(SV("<L", buff.read(4)))
 
         for i in range(0, self.styleOffsetCount.get_value()):
-            self.m_stylesOffsets.append(SV('<L', buff.read(4)))
+            self.m_stylesOffsets.append(SV("<L", buff.read(4)))
 
         size = self.chunkSize.get_value() - self.stringsOffset.get_value()
         if self.stylesOffset.get_value() != 0:
@@ -62,7 +58,7 @@ class StringBlock:
             pass
 
         for i in range(0, size / 4):
-            self.m_strings.append(SV('=L', buff.read(4)))
+            self.m_strings.append(SV("=L", buff.read(4)))
 
         if self.stylesOffset.get_value() != 0:
             size = self.chunkSize.get_value() - self.stringsOffset.get_value()
@@ -72,13 +68,13 @@ class StringBlock:
                 pass
 
             for i in range(0, size / 4):
-                self.m_styles.append(SV('=L', buff.read(4)))
+                self.m_styles.append(SV("=L", buff.read(4)))
 
     def getRaw(self, idx):
         if idx < 0 or self.m_stringOffsets == [] or idx >= len(self.m_stringOffsets):
             return None
 
-        offset = self.m_stringOffsets[ idx ].get_value()
+        offset = self.m_stringOffsets[idx].get_value()
         length = self.getShort(self.m_strings, offset)
 
         data = ""
@@ -102,4 +98,3 @@ class StringBlock:
             return value & 0xFFFF
         else:
             return value >> 16
-
