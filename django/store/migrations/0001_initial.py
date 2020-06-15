@@ -10,22 +10,21 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Product',
+            name="Product",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=30, unique=True)),
-                ('apkfile', models.FileField(upload_to=store.models.apkfilename, verbose_name=b'APK File')),
-                ('iconfile', models.ImageField(upload_to=store.models.iconfilename, verbose_name=b'Icon File')),
-                ('description', models.TextField(max_length=4000, verbose_name=b'Description')),
-                ('recent', models.TextField(blank=True, max_length=500, verbose_name=b'Recent Changes')),
-                ('package', models.CharField(blank=True, editable=False, max_length=40)),
-                ('version', models.CharField(blank=True, editable=False, max_length=40)),
-                ('qrcodefile', models.ImageField(editable=False, upload_to=store.models.qrcodefilename)),
+                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("title", models.CharField(max_length=30, unique=True)),
+                ("apkfile", models.FileField(upload_to=store.models.apkfilename, verbose_name=b"APK File")),
+                ("iconfile", models.ImageField(upload_to=store.models.iconfilename, verbose_name=b"Icon File")),
+                ("description", models.TextField(max_length=4000, verbose_name=b"Description")),
+                ("recent", models.TextField(blank=True, max_length=500, verbose_name=b"Recent Changes")),
+                ("package", models.CharField(blank=True, editable=False, max_length=40)),
+                ("version", models.CharField(blank=True, editable=False, max_length=40)),
+                ("qrcodefile", models.ImageField(editable=False, upload_to=store.models.qrcodefilename)),
             ],
-        ),
+        )
     ]

@@ -18,18 +18,12 @@
 
 from . import bytecode
 
-from . import stringblock
 from . import typeconstants as tc
 from .stringblock import StringBlock
 from .bytecode import SV
 
-import io
-from struct import pack, unpack
-from xml.dom import minidom
-
 
 class AXMLParser:
-
     def __init__(self, raw_buff):
         self.reset()
 
@@ -78,103 +72,103 @@ class AXMLParser:
             if event == tc.START_DOCUMENT:
                 chunkType = tc.CHUNK_XML_START_TAG
             else:
-                if self.buff.end() == True:
+                if self.buff.end():
                     self.m_event = tc.END_DOCUMENT
                     break
-                chunkType = SV('<L', self.buff.read(4)).get_value()
+                chunkType = SV("<L", self.buff.read(4)).get_value()
 
             if chunkType == tc.CHUNK_RESOURCEIDS:
-                chunkSize = SV('<L', self.buff.read(4)).get_value()
+                chunkSize = SV("<L", self.buff.read(4)).get_value()
                 # FIXME
-                if chunkSize < 8 or chunkSize%4 != 0:
-                    raise("ooo")
+                if chunkSize < 8 or chunkSize % 4 != 0:
+                    raise ("ooo")
 
-                for i in range(0, chunkSize/4-2):
-                    self.m_resourceIDs.append(SV('<L', self.buff.read(4)))
+                for i in range(0, chunkSize / 4 - 2):
+                    self.m_resourceIDs.append(SV("<L", self.buff.read(4)))
 
                 continue
 
             # FIXME
             if chunkType < tc.CHUNK_XML_FIRST or chunkType > tc.CHUNK_XML_LAST:
-                raise("ooo")
+                raise ("ooo")
 
             # Fake START_DOCUMENT event.
             if chunkType == tc.CHUNK_XML_START_TAG and event == -1:
                 self.m_event = tc.START_DOCUMENT
                 break
 
-            self.buff.read(4) #/*chunkSize*/
-            lineNumber = SV('<L', self.buff.read(4)).get_value()
-            self.buff.read(4) #0xFFFFFFFF
+            self.buff.read(4)  # /*chunkSize*/
+            lineNumber = SV("<L", self.buff.read(4)).get_value()
+            self.buff.read(4)  # 0xFFFFFFFF
 
             if chunkType == tc.CHUNK_XML_START_NAMESPACE or chunkType == tc.CHUNK_XML_END_NAMESPACE:
                 if chunkType == tc.CHUNK_XML_START_NAMESPACE:
-                    prefix = SV('<L', self.buff.read(4)).get_value()
-                    uri = SV('<L', self.buff.read(4)).get_value()
+                    prefix = SV("<L", self.buff.read(4)).get_value()
+                    uri = SV("<L", self.buff.read(4)).get_value()
 
-                    self.m_prefixuri[ prefix ] = uri
-                    self.m_uriprefix[ uri ] = prefix
+                    self.m_prefixuri[prefix] = uri
+                    self.m_uriprefix[uri] = prefix
                     self.m_prefixuriL.append((prefix, uri))
                 else:
                     self.buff.read(4)
                     self.buff.read(4)
                     (prefix, uri) = self.m_prefixuriL.pop()
-                    #del self.m_prefixuri[ prefix ]
-                    #del self.m_uriprefix[ uri ]
+                    # del self.m_prefixuri[ prefix ]
+                    # del self.m_uriprefix[ uri ]
 
                 continue
 
             self.m_lineNumber = lineNumber
 
             if chunkType == tc.CHUNK_XML_START_TAG:
-                self.m_namespaceUri = SV('<L', self.buff.read(4)).get_value()
-                self.m_name = SV('<L', self.buff.read(4)).get_value()
+                self.m_namespaceUri = SV("<L", self.buff.read(4)).get_value()
+                self.m_name = SV("<L", self.buff.read(4)).get_value()
 
                 # FIXME
-                self.buff.read(4) #flags
+                self.buff.read(4)  # flags
 
-                attributeCount = SV('<L', self.buff.read(4)).get_value()
-                self.m_idAttribute = (attributeCount>>16) - 1
+                attributeCount = SV("<L", self.buff.read(4)).get_value()
+                self.m_idAttribute = (attributeCount >> 16) - 1
                 attributeCount = attributeCount & 0xFFFF
-                self.m_classAttribute = SV('<L', self.buff.read(4)).get_value()
-                self.m_styleAttribute = (self.m_classAttribute>>16) - 1
+                self.m_classAttribute = SV("<L", self.buff.read(4)).get_value()
+                self.m_styleAttribute = (self.m_classAttribute >> 16) - 1
 
                 self.m_classAttribute = (self.m_classAttribute & 0xFFFF) - 1
 
                 for i in range(0, attributeCount * tc.ATTRIBUTE_LENGTH):
-                    self.m_attributes.append(SV('<L', self.buff.read(4)).get_value())
+                    self.m_attributes.append(SV("<L", self.buff.read(4)).get_value())
 
                 for i in range(tc.ATTRIBUTE_IX_VALUE_TYPE, len(self.m_attributes), tc.ATTRIBUTE_LENGTH):
-                    self.m_attributes[i] = (self.m_attributes[i]>>24)
+                    self.m_attributes[i] = self.m_attributes[i] >> 24
 
                 self.m_event = tc.START_TAG
                 break
 
             if chunkType == tc.CHUNK_XML_END_TAG:
-                self.m_namespaceUri = SV('<L', self.buff.read(4)).get_value()
-                self.m_name = SV('<L', self.buff.read(4)).get_value()
+                self.m_namespaceUri = SV("<L", self.buff.read(4)).get_value()
+                self.m_name = SV("<L", self.buff.read(4)).get_value()
                 self.m_event = tc.END_TAG
                 break
 
             if chunkType == tc.CHUNK_XML_TEXT:
-                self.m_name = SV('<L', self.buff.read(4)).get_value()
+                self.m_name = SV("<L", self.buff.read(4)).get_value()
 
                 # FIXME
-                self.buff.read(4) #?
-                self.buff.read(4) #?
+                self.buff.read(4)  # ?
+                self.buff.read(4)  # ?
 
                 self.m_event = tc.TEXT
                 break
 
     def getPrefixByUri(self, uri):
         try:
-            return self.m_uriprefix[ uri ]
+            return self.m_uriprefix[uri]
         except KeyError:
             return -1
 
     def getPrefix(self):
         try:
-            return self.sb.getRaw(self.m_prefixuri[ self.m_namespaceUri ])
+            return self.sb.getRaw(self.m_prefixuri[self.m_namespaceUri])
         except KeyError:
             return ""
 
@@ -191,11 +185,11 @@ class AXMLParser:
         return self.sb.getRaw(self.m_name)
 
     def getNamespacePrefix(self, pos):
-        prefix = self.m_prefixuriL[ pos ][0]
+        prefix = self.m_prefixuriL[pos][0]
         return self.sb.getRaw(prefix)
 
     def getNamespaceUri(self, pos):
-        uri = self.m_prefixuriL[ pos ][1]
+        uri = self.m_prefixuriL[pos][1]
         return self.sb.getRaw(uri)
 
     def getNamespaceCount(self, pos):
@@ -204,12 +198,12 @@ class AXMLParser:
     def getAttributeOffset(self, index):
         # FIXME
         if self.m_event != tc.START_TAG:
-            raise("Current event is not START_TAG.")
+            raise ("Current event is not START_TAG.")
 
         offset = index * 5
         # FIXME
         if offset >= len(self.m_attributes):
-            raise("Invalid attribute index")
+            raise ("Invalid attribute index")
 
         return offset
 
@@ -254,6 +248,5 @@ class AXMLParser:
             return self.sb.getRaw(valueString)
         # WIP
         return ""
-        #int valueData=m_attributes[offset+ATTRIBUTE_IX_VALUE_DATA];
-        #return TypedValue.coerceToString(valueType,valueData);
-
+        # int valueData=m_attributes[offset+ATTRIBUTE_IX_VALUE_DATA];
+        # return TypedValue.coerceToString(valueType,valueData);

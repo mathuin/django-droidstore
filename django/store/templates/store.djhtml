@@ -75,7 +75,7 @@
 				{% else %}
 				<div class="newentry">
 					<div class="right">
-						<p>There are no products currently available.</p>			
+						<p>There are no products currently available.</p>
 					</div>
 				</div>
 				{% endif %}
