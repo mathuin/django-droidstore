@@ -4,7 +4,7 @@ python-decouple==3.3
 dj-database-url==0.5.0
 dj-email-url==1.0.1
 Pillow==8.1.1
-psycopg2-binary==2.8.5
+psycopg2==2.8.6
 qrcode==6.1
 Sphinx==3.1.1
 hieroglyph==1.0.0
