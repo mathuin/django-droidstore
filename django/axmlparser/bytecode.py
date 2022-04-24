@@ -202,9 +202,9 @@ class _Bytecode(object):
 
 def FormatClassToJava(input):
     """
-       Transofmr a typical xml format class into java format
+    Transofmr a typical xml format class into java format
 
-       @param input: the input class name
+    @param input: the input class name
     """
     return "L" + input.replace(".", "/") + ";"
 
@@ -240,9 +240,9 @@ def FormatDescriptorToPython(input):
 # class/method/field export
 def ExportVMToPython(vm):
     """
-        Export classes/methods/fields' names in the python namespace
+    Export classes/methods/fields' names in the python namespace
 
-        @param vm: a VM object (DalvikVMFormat, JVMFormat)
+    @param vm: a VM object (DalvikVMFormat, JVMFormat)
     """
     for _class in vm.get_classes():
         # Class
