@@ -36,7 +36,7 @@ class EncryptEmail(template.Node):
 
 def encrypt_email(parser, token):
     """
-        {% encrypt_email user.email %}
+    {% encrypt_email user.email %}
     """
 
     tokens = token.contents.split()
