@@ -2,7 +2,7 @@
 
 from decouple import config, Csv
 from unipath import Path
-from dj_database_url import parse as db_url
+from dj_database_url import config as db_url
 from dj_email_url import parse as email_url
 
 BASE_DIR = Path(__file__).parent.parent
@@ -11,9 +11,7 @@ PUBLIC_ROOT = Path(config("PUBLIC_ROOT", default=""))
 
 DEBUG = config("DEBUG", default=False, cast=bool)
 
-TRAVIS = config("TRAVIS", default=False, cast=bool)
-
-DATABASES = {"default": db_url(config("DATABASE_URL"), ssl_require=True)}
+DATABASES = {"default": db_url(conn_max_age=600, conn_health_checks=True, ssl_require=True)}
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
@@ -158,3 +156,6 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 # New test runner as of 1.6
 TEST_RUNNER = "django.test.runner.DiscoverRunner"
+
+# New auto field as of 3.2
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
