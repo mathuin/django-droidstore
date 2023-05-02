@@ -7,7 +7,7 @@ on:
 
 env:
   REGISTRY: "registry.digitalocean.com/bunnymonkey"
-  IMAGE_NAME: "mathuin/droidstore:django"
+  IMAGE_NAME: "droidstore:django"
   CLUSTER: "bunnymonkey-prod"
   NAMESPACE: "django-droidstore"
   DEPLOYMENT: "droidstore"

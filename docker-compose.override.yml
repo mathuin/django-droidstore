@@ -4,7 +4,7 @@ services:
         environment:
             - POSTGRES_USER=droidstore
             - POSTGRES_PASSWORD=droidstore_password
-            - POSTGRES_DATABASE=droidstore
+            - POSTGRES_DB=droidstore
         volumes:
             - devssl:/devssl
         command: -c ssl=on -c ssl_cert_file=/devssl/server.crt -c ssl_key_file=/devssl/server.key

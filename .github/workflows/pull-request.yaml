@@ -5,7 +5,7 @@ on:
 
 env:
   REGISTRY: "registry.digitalocean.com/bunnymonkey"
-  IMAGE_NAME: "mathuin/droidstore:django"
+  IMAGE_NAME: "droidstore:django"
 
 jobs:
   pre-commit:
