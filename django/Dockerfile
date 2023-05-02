@@ -11,11 +11,5 @@ musl-dev \
 postgresql-dev \
 python3-dev \
 zlib-dev \
-&& pip install --no-cache-dir -r requirements.txt && apk del \
-gcc \
-jpeg-dev \
-musl-dev \
-postgresql-dev \
-python3-dev \
-zlib-dev
+&& pip install --no-cache-dir -r requirements.txt && apk del .build-deps
 COPY . /code/
